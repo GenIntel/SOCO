@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SOCO: Benchmarking Semantic Object Correspondence in Vision Foundation Models</title>
+  <meta name="description" content="SOCO is a large-scale, taxonomy-driven benchmark for Semantic Object Correspondence, with 100 categories, over 1M correspondence pairs, and keypoint language descriptions for evaluating vision and vision-language foundation models." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="SOCO: Benchmarking Semantic Object Correspondence in Vision Foundation Models" />
+  <meta property="og:description" content="A taxonomy-driven, language-grounded benchmark for semantic object correspondence across 100 categories and over 1M pairs." />
+  <meta property="og:image" content="images/teaser_5.jpg" />
+  <meta property="og:type" content="website" />
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- ============== HEADER / HERO ============== -->
+  <header class="hero">
+    <div class="container">
+      <h1 class="paper-title">
+        SOCO: Benchmarking Semantic Object<br>
+        Correspondence in Vision Foundation Models
+      </h1>
+
+      <div class="authors">
+        <span class="author">Olaf Dünkel<sup>1,&#9733;</sup></span>
+        <span class="author">Basavaraj Sunagad<sup>2,&#9733;</sup></span>
+        <span class="author">Haoran Wang<sup>1</sup></span>
+        <span class="author">David T. Hoffmann<sup>3</sup></span>
+        <span class="author">Christian Theobalt<sup>1</sup></span>
+        <span class="author">Adam Kortylewski<sup>2</sup></span>
+      </div>
+      <div class="affiliations">
+        <span><sup>1</sup>Max Planck Institute for Informatics, Saarland Informatics Campus</span>
+        <span><sup>2</sup>CISPA Helmholtz Center for Information Security</span>
+        <span><sup>3</sup>University of Freiburg</span>
+      </div>
+      <div class="affiliations" style="margin-top:-24px;font-size:0.88rem;">
+        <span><sup>&#9733;</sup>Equal contribution</span>
+      </div>
+
+      <!-- Action buttons -->
+      <nav class="action-buttons">
+        <span class="btn btn--disabled" aria-disabled="true" title="Released upon acceptance">
+          <span class="btn-icon">📄</span> Paper <span class="btn-soon">· soon</span>
+        </span>
+        <span class="btn btn--disabled" aria-disabled="true" title="Released upon acceptance">
+          <span class="btn-icon">💻</span> Code <span class="btn-soon">· soon</span>
+        </span>
+        <span class="btn btn--disabled" aria-disabled="true" title="Released upon acceptance">
+          <span class="btn-icon">🗂️</span> Dataset <span class="btn-soon">· soon</span>
+        </span>
+        <a class="btn" href="#bibtex">
+          <span class="btn-icon">📚</span> BibTeX
+        </a>
+      </nav>
+
+      <!-- ============ TEASER (image) ============ -->
+      <div class="teaser-media">
+        <img src="images/teaser_5.jpg" alt="SOCO teaser: taxonomy-driven, language-grounded semantic object correspondence across 100 categories." />
+      </div>
+      <p class="teaser-caption">
+        SOCO provides the first taxonomy-driven, language-grounded formulation of
+        <strong>Semantic Object Correspondence</strong>, with structured, cross-category part
+        annotations across 100 diverse categories — enabling evaluation of structured object
+        understanding in vision foundation models (VFMs) and large vision–language models (LVLMs).
+      </p>
+    </div>
+  </header>
+
+  <!-- ============== ABSTRACT ============== -->
+  <section class="section" id="abstract">
+    <div class="container narrow">
+      <h2>Abstract</h2>
+      <p>
+        Measuring structured object understanding in vision foundation models remains challenging
+        due to inconsistent evaluation protocols and limited part-level supervision. Semantic
+        correspondence (SC) evaluates this capability by testing whether object parts can be matched
+        across instances and categories under large variations in appearance, viewpoint, and
+        geometry. To enable a systematic SC evaluation, we introduce <strong>SOCO</strong>, a new
+        benchmark for <em>Semantic Object Correspondence</em> covering <strong>100 categories</strong>
+        and over <strong>1M correspondence pairs</strong>. SOCO introduces a taxonomy of
+        correspondence types, provides consistent and functionally meaningful keypoint annotations,
+        and expands both the scale and category diversity of previous datasets. In addition, SOCO
+        includes keypoint language descriptions, enabling the evaluation of large vision–language
+        models (LVLMs) and their fine-grained part-level understanding. Comprehensive experiments
+        reveal that (i) vision foundation backbones encode strong semantic structure but transfer
+        correspondences poorly across related categories and only partially capture object-part
+        position, (ii) LVLMs are stronger at text-prompted part localisation than at visual-reference
+        cross-image matching, and (iii) correspondence performance correlates strongly with
+        downstream tasks such as segmentation, tracking, 3D pose estimation, and 3D detection.
+        Together, these findings position SOCO as a benchmark for evaluating structured, part-level
+        representation quality in modern vision and multimodal foundation models.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============== CORE CONCEPT CALLOUT ============== -->
+  <section class="section section--accent">
+    <div class="container narrow">
+      <div class="definition-card">
+        <div class="definition-label">Core Concept</div>
+        <h2 class="definition-title">Semantic Object Correspondence (SOC)</h2>
+        <p class="definition-body">
+          A taxonomy-driven formulation of semantic correspondence that disentangles three distinct
+          abilities collapsed by prior benchmarks: recognising the same local concept
+          (<strong>CC</strong>), identifying the correct object-relative instance of that concept
+          (<strong>SOC</strong>), and transferring concepts across related categories
+          (<strong>Cross-SOC</strong>). This decomposition standardises what counts as a valid
+          correspondence and makes distinct model failure modes separately measurable.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== THE BENCHMARK ============== -->
+  <section class="section" id="benchmark">
+    <div class="container">
+      <h2>The SOCO Benchmark</h2>
+      <p class="lead">
+        SOCO reframes correspondence evaluation around a <strong>taxonomy of object parts</strong>.
+        Every keypoint is tied to a hierarchical, functionally meaningful concept, allowing
+        consistent part definitions both within and across object categories.
+      </p>
+
+      <!-- ============ FIGURE: ANNOTATION / OVERVIEW ============ -->
+      <figure class="figure">
+        <img src="images/illustration_cc_soc2.jpg" alt="Illustration of concept correspondence (CC), semantic object correspondence (SOC), and cross-category SOC." class="figure-image" />
+        <figcaption>
+          <strong>Figure 1.</strong> The SOC taxonomy. Marker shape encodes the shared
+          <em>semantic concept</em> (e.g., a wheel), while colour encodes object-relative identity
+          (e.g., front-left vs. rear-right). This structure supports matching the same concept within
+          an object, distinguishing its repeated instances, and aligning concepts across related
+          categories.
+        </figcaption>
+      </figure>
+
+      <!-- =============== THREE CORRESPONDENCE TYPES =============== -->
+      <h3>A Taxonomy of Correspondence</h3>
+      <p>
+        SOC decomposes a single correspondence score into three progressively harder tasks, each
+        isolating a distinct aspect of structured object understanding.
+      </p>
+
+      <div class="event-grid">
+        <div class="event-card">
+          <div class="tax-tag">CC</div>
+          <h4>Concept Correspondence</h4>
+          <div class="event-body">
+            <p>Match the same local semantic concept across instances (e.g., a wheel centre to a
+              wheel centre) — pure part recognition, ignoring which specific instance it is.</p>
+          </div>
+        </div>
+
+        <div class="event-card">
+          <div class="tax-tag">SOC</div>
+          <h4>Semantic Object Correspondence</h4>
+          <div class="event-body">
+            <p>Match the same concept <em>with the same object-relative identity</em> (front-left
+              wheel to front-left wheel) — requiring awareness of object geometry and structure.</p>
+          </div>
+        </div>
+
+        <div class="event-card">
+          <div class="tax-tag">Cross-SOC</div>
+          <h4>Cross-Category SOC</h4>
+          <div class="event-body">
+            <p>Match object-relative keypoints <em>across related categories</em> through shared
+              taxonomy concepts (a wheel on a car, bus, or tractor) — requiring category-level
+              abstraction.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- =============== DATASET AT A GLANCE =============== -->
+      <h3>Dataset at a Glance</h3>
+      <p>
+        SOCO substantially expands the scale, diversity, and consistency of prior correspondence
+        datasets, and is the first to pair every keypoint with a natural-language description.
+      </p>
+
+      <div class="stat-strip">
+        <div class="stat"><div class="stat-value">100</div><div class="stat-label">object categories</div></div>
+        <div class="stat"><div class="stat-value">4</div><div class="stat-label">super-classes</div></div>
+        <div class="stat"><div class="stat-value">&gt;1M</div><div class="stat-label">correspondence pairs</div></div>
+        <div class="stat"><div class="stat-value">3</div><div class="stat-label">correspondence types</div></div>
+        <div class="stat"><div class="stat-value">✎</div><div class="stat-label">per-keypoint language descriptions</div></div>
+      </div>
+      <p style="margin-top:16px;color:var(--text-muted);font-size:0.95rem;">
+        Categories span four super-classes — <strong>Transportation</strong>,
+        <strong>Hand-held objects</strong>, <strong>Furniture</strong>, and <strong>Animals</strong> —
+        sharing a hierarchical vocabulary of semantic concepts that enables consistent intra- and
+        cross-category matching.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============== EVALUATION & FINDINGS ============== -->
+  <section class="section section--findings" id="findings">
+    <div class="container">
+      <h2>Evaluation &amp; Findings</h2>
+      <p class="lead">
+        We evaluate a broad family of vision foundation models and large vision–language models on
+        the SOC taxonomy, and study how SOC relates to dense downstream tasks across 37 vision models.
+      </p>
+
+      <div class="findings-grid">
+        <div class="finding-card">
+          <div class="finding-number">01</div>
+          <h3>Concepts are easy; object geometry is hard</h3>
+          <p>
+            Strong backbones recognise local concepts well but degrade sharply when object-relative
+            identity is required. Even the best model, <strong>DINOv2</strong>, drops from
+            <strong>77.4 (CC)</strong> to <strong>60.8 (SOC)</strong> — a consistent
+            CC→SOC <em>repeated-part confusion</em> across every model.
+          </p>
+        </div>
+
+        <div class="finding-card">
+          <div class="finding-number">02</div>
+          <h3>Cross-category transfer remains challenging</h3>
+          <p>
+            Moving from SOC to <strong>Cross-SOC</strong> reveals limited category-level abstraction:
+            DINOv2 falls further to <strong>58.6</strong>, and most backbones lose 15–23 points from
+            CC, exposing reliance on category-specific appearance.
+          </p>
+        </div>
+
+        <div class="finding-card">
+          <div class="finding-number">03</div>
+          <h3>LVLMs read text better than they match images</h3>
+          <p>
+            Current LVLMs are far stronger at text-prompted part localisation than at
+            visual-reference cross-image matching. <strong>Qwen2.5-VL-7B</strong> rises from
+            <strong>18.7 (Vis.)</strong> to <strong>49.0 (Desc.)</strong> — yet all remain well below
+            the DINOv2 ceiling of <strong>79.4</strong>.
+          </p>
+        </div>
+
+        <div class="finding-card">
+          <div class="finding-number">04</div>
+          <h3>SOC is a better diagnostic than ImageNet kNN</h3>
+          <p>
+            Across 37 vision models, SOC correlates with dense downstream tasks — segmentation,
+            tracking, 3D pose, 3D detection — <strong>far more strongly</strong> than ImageNet kNN
+            classification, making it a practical zero-shot probe of representation quality.
+          </p>
+        </div>
+      </div>
+
+      <!-- ============ CHART A: VFM RESULTS (table + line chart) ============ -->
+      <h3>Model Performance on SOCO</h3>
+      <p>
+        PCK@0.1 across the three correspondence tasks. <em>Click a row to toggle that model on or off
+        in the chart</em> — the lines make the CC→SOC→Cross-SOC drop visible for every model.
+      </p>
+
+      <div class="results-layout">
+        <div class="table-wrap">
+          <table class="results-table results-table--compact" id="vfm-table">
+            <thead>
+              <tr>
+                <th>Model</th>
+                <th>CC</th>
+                <th>SOC</th>
+                <th>Cross-SOC</th>
+                <th>Avg</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- data-metrics = CC,SOC,Cross-SOC -->
+              <tr class="results-row is-active" data-metrics="77.4,60.8,58.6" data-label="DINOv2"     data-color="#2c69b0">
+                <td><span class="row-swatch" style="background:#2c69b0"></span>DINOv2</td>
+                <td><strong>77.4</strong></td><td><strong>60.8</strong></td><td><strong>58.6</strong></td><td><strong>65.6</strong></td>
+              </tr>
+              <tr class="results-row is-active" data-metrics="68.4,57.2,49.5" data-label="DINOv3"     data-color="#1d4ed8">
+                <td><span class="row-swatch" style="background:#1d4ed8"></span>DINOv3</td>
+                <td>68.4</td><td>57.2</td><td>49.5</td><td>58.4</td>
+              </tr>
+              <tr class="results-row is-active" data-metrics="67.8,51.4,47.1" data-label="C-RADIOv3"  data-color="#0891b2">
+                <td><span class="row-swatch" style="background:#0891b2"></span>C-RADIOv3</td>
+                <td>67.8</td><td>51.4</td><td>47.1</td><td>55.4</td>
+              </tr>
+              <tr class="results-row is-active" data-metrics="59.4,47.2,36.8" data-label="I-JEPA"     data-color="#059669">
+                <td><span class="row-swatch" style="background:#059669"></span>I-JEPA</td>
+                <td>59.4</td><td>47.2</td><td>36.8</td><td>47.8</td>
+              </tr>
+              <tr class="results-row" data-metrics="58.2,43.6,38.8" data-label="PE-Spatial"  data-color="#16a34a">
+                <td><span class="row-swatch" style="background:#16a34a"></span>PE-Spatial</td>
+                <td>58.2</td><td>43.6</td><td>38.8</td><td>46.9</td>
+              </tr>
+              <tr class="results-row" data-metrics="58.0,46.5,37.3" data-label="DUNE"        data-color="#65a30d">
+                <td><span class="row-swatch" style="background:#65a30d"></span>DUNE</td>
+                <td>58.0</td><td>46.5</td><td>37.3</td><td>47.2</td>
+              </tr>
+              <tr class="results-row" data-metrics="53.8,45.8,37.3" data-label="SD 2.1"      data-color="#ca8a04">
+                <td><span class="row-swatch" style="background:#ca8a04"></span>SD 2.1</td>
+                <td>53.8</td><td>45.8</td><td>37.3</td><td>45.6</td>
+              </tr>
+              <tr class="results-row" data-metrics="54.3,40.5,37.1" data-label="iBOT"        data-color="#d97706">
+                <td><span class="row-swatch" style="background:#d97706"></span>iBOT</td>
+                <td>54.3</td><td>40.5</td><td>37.1</td><td>44.0</td>
+              </tr>
+              <tr class="results-row" data-metrics="48.3,38.5,29.7" data-label="PIXIO"       data-color="#e67e22">
+                <td><span class="row-swatch" style="background:#e67e22"></span>PIXIO</td>
+                <td>48.3</td><td>38.5</td><td>29.7</td><td>38.8</td>
+              </tr>
+              <tr class="results-row is-active" data-metrics="42.9,31.4,22.3" data-label="DINOv1"     data-color="#a855f7">
+                <td><span class="row-swatch" style="background:#a855f7"></span>DINOv1</td>
+                <td>42.9</td><td>31.4</td><td>22.3</td><td>32.2</td>
+              </tr>
+              <tr class="results-row is-active" data-metrics="26.3,19.9,12.2" data-label="QWEN-L"      data-color="#dc2626">
+                <td><span class="row-swatch" style="background:#dc2626"></span>QWEN-L</td>
+                <td>26.3</td><td>19.9</td><td>12.2</td><td>19.5</td>
+              </tr>
+              <tr class="results-row is-active" data-metrics="24.4,16.4,10.5" data-label="CLIP"        data-color="#ec4899">
+                <td><span class="row-swatch" style="background:#ec4899"></span>CLIP</td>
+                <td>24.4</td><td>16.4</td><td>10.5</td><td>17.1</td>
+              </tr>
+              <tr class="results-row" data-metrics="15.1,10.6,5.3" data-label="CroCov2"     data-color="#78716c">
+                <td><span class="row-swatch" style="background:#78716c"></span>CroCov2</td>
+                <td>15.1</td><td>10.6</td><td>5.3</td><td>10.3</td>
+              </tr>
+              <tr class="results-row" data-metrics="14.7,10.1,5.0" data-label="MAE"         data-color="#a8a29e">
+                <td><span class="row-swatch" style="background:#a8a29e"></span>MAE</td>
+                <td>14.7</td><td>10.1</td><td>5.0</td><td>9.9</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <figure class="radar-figure">
+          <div class="chart-wrap">
+            <canvas id="vfm-chart" aria-label="CC to SOC to Cross-SOC performance per model"></canvas>
+          </div>
+          <figcaption>
+            PCK@0.1 across the three correspondence tasks. Performance drops monotonically from CC to
+            SOC to Cross-SOC for every model.
+          </figcaption>
+        </figure>
+      </div>
+
+      <!-- ============ CHART B: DOWNSTREAM CORRELATION ============ -->
+      <h3>SOC as a Representation Diagnostic</h3>
+      <p>
+        Across 37 vision models, we compare how well <strong>SOC</strong> and
+        <strong>ImageNet kNN</strong> predict performance on dense downstream tasks (Pearson&nbsp;<em>r</em>).
+        SOC dominates kNN on every task.
+      </p>
+      <figure class="figure sensitivity-figure">
+        <div class="chart-wrap">
+          <canvas id="corr-chart" aria-label="Correlation of SOC and kNN with downstream tasks"></canvas>
+        </div>
+        <figcaption>
+          <strong>Figure 2.</strong> Per-task Pearson <em>r</em> across 37 vision models. Higher is
+          better; SOC correlates more strongly than ImageNet kNN with every downstream task.
+        </figcaption>
+      </figure>
+
+      <!-- ============ LVLM STATIC TABLE ============ -->
+      <h3>Large Vision–Language Models</h3>
+      <p>
+        All settings show the target image with candidate keypoints; only the query differs.
+        <em>Vis.</em> marks the query in a source image, <em>Vis.+Desc.</em> adds the keypoint
+        description, and <em>Desc.</em> uses the description alone. LVLMs improve markedly as language
+        is added, but trail the DINOv2 vision baseline.
+      </p>
+      <div class="results-layout" style="grid-template-columns: minmax(0,1.4fr) minmax(0,1fr);">
+        <div class="table-wrap">
+          <table class="results-table results-table--compact">
+            <thead>
+              <tr><th>Method</th><th>Vis.</th><th>Vis.+Desc.</th><th>Desc.</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Random</td><td>0.4</td><td>0.4</td><td>0.4</td></tr>
+              <tr><td>DINOv2 <span class="cell-tag">vision baseline</span></td><td><strong>79.4</strong></td><td><strong>79.4</strong></td><td><strong>79.4</strong></td></tr>
+              <tr><td>LLaVA-OV-7B</td><td>5.5</td><td>16.1</td><td>35.0</td></tr>
+              <tr><td>LLaVA-OV-1.5-8B</td><td>21.7</td><td>33.0</td><td>43.8</td></tr>
+              <tr><td>Qwen2.5-VL-3B</td><td>14.7</td><td>26.4</td><td>39.3</td></tr>
+              <tr><td>Qwen2.5-VL-7B</td><td>18.7</td><td>39.8</td><td><strong>49.0</strong></td></tr>
+              <tr><td>InternVL3.5-8B</td><td>25.1</td><td>39.8</td><td>41.5</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <figure class="radar-figure">
+          <img src="images/lvlm_eval.jpg" alt="The three LVLM evaluation settings: Vis., Vis.+Desc., and Desc." class="figure-image" style="box-shadow:none;" />
+          <figcaption>The three LVLM evaluation settings.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== EXAMPLE ANNOTATIONS ============== -->
+  <section class="section" id="examples">
+    <div class="container">
+      <h2>Example Annotations</h2>
+      <p class="lead">
+        Taxonomy-driven keypoint annotations across diverse categories, with consistent semantic
+        concepts and object-relative identities.
+      </p>
+      <figure class="figure">
+        <img src="images/soco_examples.jpg" alt="Example SOCO keypoint annotations across diverse object categories." class="figure-image" />
+        <figcaption>
+          <strong>Figure 3.</strong> Example SOCO annotations. Marker shape encodes the shared
+          semantic concept and colour encodes object-relative identity, kept consistent within and
+          across related categories.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============== LIMITATIONS ============== -->
+  <section class="section section--accent" id="limitations">
+    <div class="container narrow">
+      <h2>Limitations</h2>
+      <ul class="limitations-list">
+        <li>
+          <strong>Annotation subjectivity for fine parts.</strong> Functionally meaningful keypoints
+          reduce ambiguity, but the precise localisation of small or articulated parts can still vary
+          between annotators.
+        </li>
+        <li>
+          <strong>Category and taxonomy scope.</strong> SOCO covers 100 categories across four
+          super-classes; the shared-concept taxonomy is broad but not exhaustive across the long tail
+          of real-world objects.
+        </li>
+        <li>
+          <strong>Protocol coverage.</strong> Our evaluation focuses on PCK-style keypoint
+          correspondence and prompted LVLM settings; other interaction modes (e.g., free-form
+          dialogue) are left to future work.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============== ACKNOWLEDGMENTS ============== -->
+  <section class="section section--accent" id="acknowledgments">
+    <div class="container narrow">
+      <h2>Acknowledgments</h2>
+      <p>
+        AK acknowledges support via his Emmy Noether Research Group funded by the German Research
+        Foundation (DFG) under grant number 468670075.
+      </p>
+      <p>
+        This research was funded by the Deutsche Forschungsgemeinschaft (DFG, German Research
+        Foundation) under grant number 539134284, through EFRE (FEIH_2698644) and the state of
+        Baden-Württemberg.
+      </p>
+      <p> We thank Matthis Heimberg for early analyses and experiments. </p>
+      <!--
+      <div class="ack-logos">
+        <img src="images/BaWue_Logo_Standard_rgb_pos.png" alt="Baden-Württemberg state logo" class="ack-logo" />
+        <img src="images/EN-Co-funded-by-the-EU_POS.png" alt="Co-funded by the European Union" class="ack-logo" />
+      </div>
+      -->
+    </div>
+  </section>
+
+  <!-- ============== BIBTEX ============== -->
+  <section class="section" id="bibtex">
+    <div class="container narrow">
+      <h2>BibTeX</h2>
+      <pre class="bibtex"><code>@misc{duenkel2026soco,
+  title         = {SOCO: Benchmarking Semantic Object Correspondence in Vision Foundation Models},
+  author        = {D{\"u}nkel, Olaf and Sunagad, Basavaraj and Wang, Haoran and
+                   Hoffmann, David T. and Theobalt, Christian and Kortylewski, Adam},
+  year          = {2026},
+  eprint        = {XXXX.XXXXX},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CV},
+  url           = {https://arxiv.org/abs/XXXX.XXXXX}
+}</code></pre>
+    </div>
+  </section>
+
+  <!-- ============== CHART A: VFM RESULTS (CC -> SOC -> Cross-SOC) ============== -->
+  <script>
+    (function () {
+      var canvas = document.getElementById('vfm-chart');
+      var table  = document.getElementById('vfm-table');
+      if (!canvas || !table || typeof Chart === 'undefined') return;
+
+      var taskLabels = ['CC', 'SOC', 'Cross-SOC'];
+
+      function hexToRgba(hex, alpha) {
+        var h = hex.replace('#', '');
+        if (h.length === 3) { h = h.split('').map(function (c) { return c + c; }).join(''); }
+        var r = parseInt(h.slice(0, 2), 16);
+        var g = parseInt(h.slice(2, 4), 16);
+        var b = parseInt(h.slice(4, 6), 16);
+        return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
+      }
+
+      var rows = Array.prototype.slice.call(table.querySelectorAll('tr.results-row'));
+      var datasets = rows.map(function (row) {
+        var color  = row.getAttribute('data-color');
+        var values = row.getAttribute('data-metrics').split(',').map(parseFloat);
+        var active = row.classList.contains('is-active');
+        if (!active) { row.classList.add('is-hidden'); }
+        return {
+          label: row.getAttribute('data-label'),
+          data: values,
+          borderColor: color,
+          backgroundColor: hexToRgba(color, 0.10),
+          pointBackgroundColor: color,
+          pointBorderColor: '#fff',
+          pointBorderWidth: 1.5,
+          pointRadius: 4,
+          pointHoverRadius: 6,
+          borderWidth: 2.5,
+          tension: 0.15,
+          hidden: !active,
+          _rowEl: row
+        };
+      });
+
+      var chart = new Chart(canvas, {
+        type: 'line',
+        data: { labels: taskLabels, datasets: datasets },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: { duration: 350, easing: 'easeOutQuart' },
+          interaction: { mode: 'nearest', intersect: false },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: 'rgba(15, 23, 42, 0.95)',
+              titleColor: '#fff', bodyColor: '#e2e8f0',
+              titleFont: { family: 'Inter, sans-serif', weight: '600', size: 13 },
+              bodyFont: { family: 'Inter, sans-serif', size: 12 },
+              padding: 10, cornerRadius: 8,
+              callbacks: {
+                label: function (ctx) { return ' ' + ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(1); }
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true, max: 100,
+              title: { display: true, text: 'PCK@0.1  (higher = better)', color: '#5a6072',
+                       font: { family: 'Inter, sans-serif', size: 12, weight: '600' } },
+              ticks: { color: '#8b93a3', font: { family: 'Inter, sans-serif', size: 11 }, stepSize: 20 },
+              grid: { color: 'rgba(15, 23, 42, 0.06)' }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { color: '#1a1d23', font: { family: 'Inter, sans-serif', size: 14, weight: '600' } }
+            }
+          }
+        }
+      });
+
+      rows.forEach(function (row, idx) {
+        row.addEventListener('click', function () {
+          var ds = chart.data.datasets[idx];
+          ds.hidden = !ds.hidden;
+          row.classList.toggle('is-hidden', ds.hidden);
+          row.classList.toggle('is-active', !ds.hidden);
+          chart.update();
+        });
+      });
+
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(function () { chart.resize(); chart.update('none'); });
+      }
+      window.addEventListener('load', function () { chart.resize(); });
+    })();
+  </script>
+
+  <!-- ============== CHART B: DOWNSTREAM CORRELATION (SOC vs kNN) ============== -->
+  <script>
+    (function () {
+      var canvas = document.getElementById('corr-chart');
+      if (!canvas || typeof Chart === 'undefined') return;
+
+      var tasks = ['SemSeg', '3D Det.', '3D Pose', 'MV Cor.', 'Tracking', 'Normals', 'Depth'];
+      var soc = [0.64, 0.89, 0.63, 0.95, 0.91, 0.75, 0.81];
+      var knn = [0.40, 0.35, 0.34, 0.27, 0.29, 0.39, 0.29];
+
+      var chart = new Chart(canvas, {
+        type: 'bar',
+        data: {
+          labels: tasks,
+          datasets: [
+            { label: 'SOC', data: soc, backgroundColor: '#2c69b0cc', borderColor: '#2c69b0',
+              borderWidth: 1, borderRadius: 4, barPercentage: 0.86, categoryPercentage: 0.74 },
+            { label: 'ImageNet kNN', data: knn, backgroundColor: '#e67e22cc', borderColor: '#e67e22',
+              borderWidth: 1, borderRadius: 4, barPercentage: 0.86, categoryPercentage: 0.74 }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: { duration: 600, easing: 'easeOutQuart' },
+          interaction: { mode: 'nearest', intersect: true },
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: { font: { family: 'Inter, sans-serif', size: 13, weight: '500' }, color: '#1a1d23',
+                        usePointStyle: true, pointStyle: 'rectRounded', boxWidth: 12, padding: 16 }
+            },
+            tooltip: {
+              backgroundColor: 'rgba(15, 23, 42, 0.95)', titleColor: '#fff', bodyColor: '#e2e8f0',
+              titleFont: { family: 'Inter, sans-serif', weight: '600', size: 13 },
+              bodyFont: { family: 'Inter, sans-serif', size: 12 }, padding: 12, cornerRadius: 8,
+              callbacks: {
+                title: function (items) { return items[0].label; },
+                label: function (ctx) { return ' ' + ctx.dataset.label + ': r = ' + ctx.parsed.y.toFixed(2); }
+              }
+            }
+          },
+          scales: {
+            x: { grid: { display: false },
+                 ticks: { color: '#5a6072', font: { family: 'Inter, sans-serif', size: 13, weight: '500' } } },
+            y: {
+              beginAtZero: true, max: 1,
+              title: { display: true, text: 'Pearson r with downstream task  (higher = better)',
+                       color: '#5a6072', font: { family: 'Inter, sans-serif', size: 12, weight: '600' } },
+              ticks: { color: '#5a6072', font: { family: 'Inter, sans-serif', size: 12 }, stepSize: 0.2 },
+              grid: { color: 'rgba(15, 23, 42, 0.06)' }
+            }
+          }
+        }
+      });
+
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(function () { chart.resize(); chart.update('none'); });
+      }
+      window.addEventListener('load', function () { chart.resize(); });
+    })();
+  </script>
+
+  <!-- ============== FOOTER ============== -->
+  <footer class="footer">
+    <div class="container narrow">
+      <p>
+        SOCO project page. Design adapted from the CRONOS project page template.
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
