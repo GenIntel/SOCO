@@ -29,12 +29,12 @@
       </h1>
 
       <div class="authors">
-        <span class="author">Olaf Dünkel<sup>1,&#9733;</sup></span>
-        <span class="author">Basavaraj Sunagad<sup>2,&#9733;</sup></span>
-        <span class="author">Haoran Wang<sup>1</sup></span>
-        <span class="author">David T. Hoffmann<sup>3</sup></span>
-        <span class="author">Christian Theobalt<sup>1</sup></span>
-        <span class="author">Adam Kortylewski<sup>2</sup></span>
+        <span class="author"><a class="author-link" href="https://odunkel.github.io/" target="_blank" rel="noopener">Olaf Dünkel</a><sup>1,&#9733;</sup></span>
+        <span class="author"><a class="author-link" href="https://cispa.de/de/people/c02basu" target="_blank" rel="noopener">Basavaraj Sunagad</a><sup>2,&#9733;</sup></span>
+        <span class="author"><a class="author-link" href="https://krumo.github.io/" target="_blank" rel="noopener">Haoran Wang</a><sup>1</sup></span>
+        <span class="author"><a class="author-link" href="https://www.linkedin.com/in/david-t-hoffmann-76b3331a2/" target="_blank" rel="noopener">David T. Hoffmann</a><sup>3</sup></span>
+        <span class="author"><a class="author-link" href="https://people.mpi-inf.mpg.de/~theobalt/" target="_blank" rel="noopener">Christian Theobalt</a><sup>1</sup></span>
+        <span class="author"><a class="author-link" href="https://genintel.de/" target="_blank" rel="noopener">Adam Kortylewski</a><sup>2</sup></span>
       </div>
       <div class="affiliations">
         <span><sup>1</sup>Max Planck Institute for Informatics, Saarland Informatics Campus</span>
@@ -189,7 +189,7 @@
         <div class="stat"><div class="stat-value">100</div><div class="stat-label">object categories</div></div>
         <div class="stat"><div class="stat-value">4</div><div class="stat-label">super-classes</div></div>
         <div class="stat"><div class="stat-value">&gt;1M</div><div class="stat-label">correspondence pairs</div></div>
-        <div class="stat"><div class="stat-value">3</div><div class="stat-label">correspondence types</div></div>
+        <div class="stat"><div class="stat-value">4000</div><div class="stat-label">manually annotated images</div></div>
         <div class="stat"><div class="stat-value">✎</div><div class="stat-label">per-keypoint language descriptions</div></div>
       </div>
       <p style="margin-top:16px;color:var(--text-muted);font-size:0.95rem;">
@@ -217,7 +217,7 @@
           <p>
             Strong backbones recognise local concepts well but degrade sharply when object-relative
             identity is required. Even the best model, <strong>DINOv2</strong>, drops from
-            <strong>77.4 (CC)</strong> to <strong>60.8 (SOC)</strong> — a consistent
+            <strong>78.9 (CC)</strong> to <strong>60.4 (SOC)</strong> — a consistent
             CC→SOC <em>repeated-part confusion</em> across every model.
           </p>
         </div>
@@ -227,7 +227,7 @@
           <h3>Cross-category transfer remains challenging</h3>
           <p>
             Moving from SOC to <strong>Cross-SOC</strong> reveals limited category-level abstraction:
-            DINOv2 falls further to <strong>58.6</strong>, and most backbones lose 15–23 points from
+            DINOv2 falls further to <strong>55.0</strong>, and most backbones lose 15–24 points from
             CC, exposing reliance on category-specific appearance.
           </p>
         </div>
@@ -237,8 +237,8 @@
           <h3>LVLMs read text better than they match images</h3>
           <p>
             Current LVLMs are far stronger at text-prompted part localisation than at
-            visual-reference cross-image matching. <strong>Qwen2.5-VL-7B</strong> rises from
-            <strong>18.7 (Vis.)</strong> to <strong>49.0 (Desc.)</strong> — yet all remain well below
+            visual-reference cross-image matching. <strong>Qwen3-VL-8B</strong> rises from
+            <strong>34.2 (Vis.)</strong> to <strong>54.0 (Desc.)</strong> — yet all remain well below
             the DINOv2 ceiling of <strong>79.4</strong>.
           </p>
         </div>
@@ -275,61 +275,61 @@
             </thead>
             <tbody>
               <!-- data-metrics = CC,SOC,Cross-SOC -->
-              <tr class="results-row is-active" data-metrics="77.4,60.8,58.6" data-label="DINOv2"     data-color="#2c69b0">
+              <tr class="results-row is-active" data-metrics="78.9,60.4,55.0" data-label="DINOv2"     data-color="#2c69b0">
                 <td><span class="row-swatch" style="background:#2c69b0"></span>DINOv2</td>
-                <td><strong>77.4</strong></td><td><strong>60.8</strong></td><td><strong>58.6</strong></td><td><strong>65.6</strong></td>
+                <td><strong>78.9</strong></td><td><strong>60.4</strong></td><td><strong>55.0</strong></td><td><strong>64.8</strong></td>
               </tr>
-              <tr class="results-row is-active" data-metrics="68.4,57.2,49.5" data-label="DINOv3"     data-color="#1d4ed8">
+              <tr class="results-row is-active" data-metrics="69.7,55.5,49.4" data-label="DINOv3"     data-color="#1d4ed8">
                 <td><span class="row-swatch" style="background:#1d4ed8"></span>DINOv3</td>
-                <td>68.4</td><td>57.2</td><td>49.5</td><td>58.4</td>
+                <td>69.7</td><td>55.5</td><td>49.4</td><td>58.2</td>
               </tr>
-              <tr class="results-row is-active" data-metrics="67.8,51.4,47.1" data-label="C-RADIOv3"  data-color="#0891b2">
+              <tr class="results-row is-active" data-metrics="69.0,51.1,46.3" data-label="C-RADIOv3"  data-color="#0891b2">
                 <td><span class="row-swatch" style="background:#0891b2"></span>C-RADIOv3</td>
-                <td>67.8</td><td>51.4</td><td>47.1</td><td>55.4</td>
+                <td>69.0</td><td>51.1</td><td>46.3</td><td>55.5</td>
               </tr>
-              <tr class="results-row is-active" data-metrics="59.4,47.2,36.8" data-label="I-JEPA"     data-color="#059669">
+              <tr class="results-row is-active" data-metrics="60.5,46.3,38.4" data-label="I-JEPA"     data-color="#059669">
                 <td><span class="row-swatch" style="background:#059669"></span>I-JEPA</td>
-                <td>59.4</td><td>47.2</td><td>36.8</td><td>47.8</td>
+                <td>60.5</td><td>46.3</td><td>38.4</td><td>48.4</td>
               </tr>
-              <tr class="results-row" data-metrics="58.2,43.6,38.8" data-label="PE-Spatial"  data-color="#16a34a">
-                <td><span class="row-swatch" style="background:#16a34a"></span>PE-Spatial</td>
-                <td>58.2</td><td>43.6</td><td>38.8</td><td>46.9</td>
-              </tr>
-              <tr class="results-row" data-metrics="58.0,46.5,37.3" data-label="DUNE"        data-color="#65a30d">
+              <tr class="results-row" data-metrics="60.1,45.7,38.5" data-label="DUNE"        data-color="#65a30d">
                 <td><span class="row-swatch" style="background:#65a30d"></span>DUNE</td>
-                <td>58.0</td><td>46.5</td><td>37.3</td><td>47.2</td>
+                <td>60.1</td><td>45.7</td><td>38.5</td><td>48.1</td>
               </tr>
-              <tr class="results-row" data-metrics="53.8,45.8,37.3" data-label="SD 2.1"      data-color="#ca8a04">
+              <tr class="results-row" data-metrics="60.6,43.8,38.8" data-label="PE-Spatial"  data-color="#16a34a">
+                <td><span class="row-swatch" style="background:#16a34a"></span>PE-Spatial</td>
+                <td>60.6</td><td>43.8</td><td>38.8</td><td>47.7</td>
+              </tr>
+              <tr class="results-row" data-metrics="56.0,44.8,38.3" data-label="SD 2.1"      data-color="#ca8a04">
                 <td><span class="row-swatch" style="background:#ca8a04"></span>SD 2.1</td>
-                <td>53.8</td><td>45.8</td><td>37.3</td><td>45.6</td>
+                <td>56.0</td><td>44.8</td><td>38.3</td><td>46.4</td>
               </tr>
-              <tr class="results-row" data-metrics="54.3,40.5,37.1" data-label="iBOT"        data-color="#d97706">
+              <tr class="results-row" data-metrics="55.2,39.6,34.1" data-label="iBOT"        data-color="#d97706">
                 <td><span class="row-swatch" style="background:#d97706"></span>iBOT</td>
-                <td>54.3</td><td>40.5</td><td>37.1</td><td>44.0</td>
+                <td>55.2</td><td>39.6</td><td>34.1</td><td>43.0</td>
               </tr>
-              <tr class="results-row" data-metrics="48.3,38.5,29.7" data-label="PIXIO"       data-color="#e67e22">
+              <tr class="results-row" data-metrics="49.5,37.5,32.9" data-label="PIXIO"       data-color="#e67e22">
                 <td><span class="row-swatch" style="background:#e67e22"></span>PIXIO</td>
-                <td>48.3</td><td>38.5</td><td>29.7</td><td>38.8</td>
+                <td>49.5</td><td>37.5</td><td>32.9</td><td>40.0</td>
               </tr>
-              <tr class="results-row is-active" data-metrics="42.9,31.4,22.3" data-label="DINOv1"     data-color="#a855f7">
+              <tr class="results-row is-active" data-metrics="43.8,30.6,23.9" data-label="DINOv1"     data-color="#a855f7">
                 <td><span class="row-swatch" style="background:#a855f7"></span>DINOv1</td>
-                <td>42.9</td><td>31.4</td><td>22.3</td><td>32.2</td>
+                <td>43.8</td><td>30.6</td><td>23.9</td><td>32.8</td>
               </tr>
-              <tr class="results-row is-active" data-metrics="26.3,19.9,12.2" data-label="QWEN-L"      data-color="#dc2626">
+              <tr class="results-row is-active" data-metrics="27.2,19.4,16.2" data-label="QWEN-L"      data-color="#dc2626">
                 <td><span class="row-swatch" style="background:#dc2626"></span>QWEN-L</td>
-                <td>26.3</td><td>19.9</td><td>12.2</td><td>19.5</td>
+                <td>27.2</td><td>19.4</td><td>16.2</td><td>20.9</td>
               </tr>
-              <tr class="results-row is-active" data-metrics="24.4,16.4,10.5" data-label="CLIP"        data-color="#ec4899">
+              <tr class="results-row is-active" data-metrics="24.9,16.1,11.2" data-label="CLIP"        data-color="#ec4899">
                 <td><span class="row-swatch" style="background:#ec4899"></span>CLIP</td>
-                <td>24.4</td><td>16.4</td><td>10.5</td><td>17.1</td>
+                <td>24.9</td><td>16.1</td><td>11.2</td><td>17.4</td>
               </tr>
-              <tr class="results-row" data-metrics="15.1,10.6,5.3" data-label="CroCov2"     data-color="#78716c">
+              <tr class="results-row" data-metrics="15.2,10.2,7.8" data-label="CroCov2"     data-color="#78716c">
                 <td><span class="row-swatch" style="background:#78716c"></span>CroCov2</td>
-                <td>15.1</td><td>10.6</td><td>5.3</td><td>10.3</td>
+                <td>15.2</td><td>10.2</td><td>7.8</td><td>11.1</td>
               </tr>
-              <tr class="results-row" data-metrics="14.7,10.1,5.0" data-label="MAE"         data-color="#a8a29e">
+              <tr class="results-row" data-metrics="14.4,9.4,7.2" data-label="MAE"         data-color="#a8a29e">
                 <td><span class="row-swatch" style="background:#a8a29e"></span>MAE</td>
-                <td>14.7</td><td>10.1</td><td>5.0</td><td>9.9</td>
+                <td>14.4</td><td>9.4</td><td>7.2</td><td>10.3</td>
               </tr>
             </tbody>
           </table>
@@ -344,6 +344,43 @@
             SOC to Cross-SOC for every model.
           </figcaption>
         </figure>
+      </div>
+
+      <!-- ============ SUPER-CATEGORY BREAKDOWN ============ -->
+      <h3>SOC by Super-category</h3>
+      <p>
+        SOC accuracy broken down by SOCO's four super-categories. Models behave quite differently
+        across object families: e.g. <strong>DINOv3</strong> leads on furniture, while
+        <strong>DINOv2</strong> dominates transportation, hand-held objects, and animals.
+      </p>
+      <div class="table-wrap">
+        <table class="results-table results-table--compact">
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>Transportation</th>
+              <th>Hand-held</th>
+              <th>Furniture</th>
+              <th>Animals</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>DINOv2</td>     <td><strong>56.9</strong></td><td><strong>61.6</strong></td><td>45.5</td><td><strong>66.3</strong></td></tr>
+            <tr><td>DINOv3</td>     <td>51.6</td><td>57.4</td><td><strong>59.9</strong></td><td>56.6</td></tr>
+            <tr><td>C-RADIOv3</td>  <td>51.7</td><td>48.1</td><td>39.7</td><td>54.8</td></tr>
+            <tr><td>I-JEPA</td>     <td>41.5</td><td>51.0</td><td>46.7</td><td>47.7</td></tr>
+            <tr><td>DUNE</td>       <td>40.0</td><td>50.5</td><td>51.0</td><td>46.6</td></tr>
+            <tr><td>PE-Spatial</td> <td>45.1</td><td>40.7</td><td>37.6</td><td>45.9</td></tr>
+            <tr><td>SD 2.1</td>     <td>42.4</td><td>45.3</td><td>47.7</td><td>45.6</td></tr>
+            <tr><td>iBOT</td>       <td>36.1</td><td>40.1</td><td>32.8</td><td>43.9</td></tr>
+            <tr><td>PIXIO</td>      <td>37.3</td><td>40.2</td><td>46.7</td><td>34.2</td></tr>
+            <tr><td>DINOv1</td>     <td>29.1</td><td>32.9</td><td>27.4</td><td>31.4</td></tr>
+            <tr><td>QWEN-L</td>     <td>21.7</td><td>24.1</td><td>22.6</td><td>14.5</td></tr>
+            <tr><td>CLIP</td>       <td>17.5</td><td>14.2</td><td>11.6</td><td>16.9</td></tr>
+            <tr><td>CroCov2</td>    <td>11.6</td><td>12.3</td><td>10.2</td><td>8.1</td></tr>
+            <tr><td>MAE</td>        <td>10.0</td><td>11.9</td><td>11.7</td><td>7.1</td></tr>
+          </tbody>
+        </table>
       </div>
 
       <!-- ============ CHART B: DOWNSTREAM CORRELATION ============ -->
@@ -369,7 +406,7 @@
         All settings show the target image with candidate keypoints; only the query differs.
         <em>Vis.</em> marks the query in a source image, <em>Vis.+Desc.</em> adds the keypoint
         description, and <em>Desc.</em> uses the description alone. LVLMs improve markedly as language
-        is added, but trail the DINOv2 vision baseline.
+        is added, but remain well below the strongest vision backbones (cf. table above).
       </p>
       <div class="results-layout" style="grid-template-columns: minmax(0,1.4fr) minmax(0,1fr);">
         <div class="table-wrap">
@@ -379,12 +416,14 @@
             </thead>
             <tbody>
               <tr><td>Random</td><td>0.4</td><td>0.4</td><td>0.4</td></tr>
-              <tr><td>DINOv2 <span class="cell-tag">vision baseline</span></td><td><strong>79.4</strong></td><td><strong>79.4</strong></td><td><strong>79.4</strong></td></tr>
-              <tr><td>LLaVA-OV-7B</td><td>5.5</td><td>16.1</td><td>35.0</td></tr>
-              <tr><td>LLaVA-OV-1.5-8B</td><td>21.7</td><td>33.0</td><td>43.8</td></tr>
-              <tr><td>Qwen2.5-VL-3B</td><td>14.7</td><td>26.4</td><td>39.3</td></tr>
-              <tr><td>Qwen2.5-VL-7B</td><td>18.7</td><td>39.8</td><td><strong>49.0</strong></td></tr>
-              <tr><td>InternVL3.5-8B</td><td>25.1</td><td>39.8</td><td>41.5</td></tr>
+              <tr><td>Random++</td><td>25.0</td><td>25.0</td><td>25.0</td></tr>
+              <tr><td>LLaVA-OV-7B</td><td>2.9</td><td>14.1</td><td>24.3</td></tr>
+              <tr><td>InternVL3.5-8B</td><td>24.9</td><td>38.5</td><td>39.6</td></tr>
+              <tr><td>Qwen2.5-VL-3B</td><td>5.2</td><td>17.4</td><td>29.9</td></tr>
+              <tr><td>Qwen2.5-VL-7B</td><td>19.4</td><td>30.8</td><td>39.1</td></tr>
+              <tr><td>Qwen3-VL-4B</td><td>8.6</td><td>18.0</td><td>44.4</td></tr>
+              <tr><td>Qwen3-VL-8B</td><td><strong>34.2</strong></td><td>30.8</td><td><strong>54.0</strong></td></tr>
+              <tr><td>GPT4o</td><td>30.2</td><td>30.9</td><td>37.6</td></tr>
             </tbody>
           </table>
         </div>
@@ -412,30 +451,6 @@
           across related categories.
         </figcaption>
       </figure>
-    </div>
-  </section>
-
-  <!-- ============== LIMITATIONS ============== -->
-  <section class="section section--accent" id="limitations">
-    <div class="container narrow">
-      <h2>Limitations</h2>
-      <ul class="limitations-list">
-        <li>
-          <strong>Annotation subjectivity for fine parts.</strong> Functionally meaningful keypoints
-          reduce ambiguity, but the precise localisation of small or articulated parts can still vary
-          between annotators.
-        </li>
-        <li>
-          <strong>Category and taxonomy scope.</strong> SOCO covers 100 categories across four
-          super-classes; the shared-concept taxonomy is broad but not exhaustive across the long tail
-          of real-world objects.
-        </li>
-        <li>
-          <strong>Protocol coverage.</strong> Our evaluation focuses on PCK-style keypoint
-          correspondence and prompted LVLM settings; other interaction modes (e.g., free-form
-          dialogue) are left to future work.
-        </li>
-      </ul>
     </div>
   </section>
 
@@ -581,8 +596,8 @@
       if (!canvas || typeof Chart === 'undefined') return;
 
       var tasks = ['SemSeg', '3D Det.', '3D Pose', 'MV Cor.', 'Tracking', 'Normals', 'Depth'];
-      var soc = [0.64, 0.89, 0.63, 0.95, 0.91, 0.75, 0.81];
-      var knn = [0.40, 0.35, 0.34, 0.27, 0.29, 0.39, 0.29];
+      var soc = [0.629, 0.892, 0.692, 0.943, 0.907, 0.737, 0.798];
+      var knn = [0.399, 0.393, 0.348, 0.266, 0.286, 0.395, 0.298];
 
       var chart = new Chart(canvas, {
         type: 'bar',
