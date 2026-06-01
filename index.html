@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+<!--
+  SOCO project page.
+  Design and HTML/CSS scaffolding adapted from the CRONOS project page
+  (https://github.com/genintel/cronos).
+-->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -47,9 +52,9 @@
 
       <!-- Action buttons -->
       <nav class="action-buttons">
-        <span class="btn btn--disabled" aria-disabled="true" title="Released upon acceptance">
-          <span class="btn-icon">📄</span> Paper <span class="btn-soon">· soon</span>
-        </span>
+        <a class="btn" href="https://arxiv.org/abs/2605.31597" target="_blank" rel="noopener">
+          <span class="btn-icon">📄</span> Paper
+        </a>
         <span class="btn btn--disabled" aria-disabled="true" title="Released upon acceptance">
           <span class="btn-icon">💻</span> Code <span class="btn-soon">· soon</span>
         </span>
@@ -239,7 +244,7 @@
             Current LVLMs are far stronger at text-prompted part localisation than at
             visual-reference cross-image matching. <strong>Qwen3-VL-8B</strong> rises from
             <strong>34.2 (Vis.)</strong> to <strong>54.0 (Desc.)</strong> — yet all remain well below
-            the DINOv2 ceiling of <strong>79.4</strong>.
+            the DINOv2 ceiling of <strong>81.0</strong>.
           </p>
         </div>
 
@@ -495,6 +500,7 @@
             <tbody>
               <tr><td>Random</td><td>0.4</td><td>0.4</td><td>0.4</td></tr>
               <tr><td>Random++</td><td>25.0</td><td>25.0</td><td>25.0</td></tr>
+              <tr><td><em>DINOv2 (VFM ceiling)</em></td><td><strong>81.0</strong></td><td>—</td><td>—</td></tr>
               <tr><td>LLaVA-OV-7B</td><td>2.9</td><td>14.1</td><td>24.3</td></tr>
               <tr><td>InternVL3.5-8B</td><td>24.9</td><td><strong>38.5</strong></td><td>39.6</td></tr>
               <tr><td>Qwen2.5-VL-3B</td><td>5.2</td><td>17.4</td><td>29.9</td></tr>
@@ -540,11 +546,6 @@
         AK acknowledges support via his Emmy Noether Research Group funded by the German Research
         Foundation (DFG) under grant number 468670075.
       </p>
-      <p>
-        This research was funded by the Deutsche Forschungsgemeinschaft (DFG, German Research
-        Foundation) under grant number 539134284, through EFRE (FEIH_2698644) and the state of
-        Baden-Württemberg.
-      </p>
       <p> We thank Matthis Heimberg for early analyses and experiments. </p>
       <!--
       <div class="ack-logos">
@@ -564,10 +565,10 @@
   author        = {D{\"u}nkel, Olaf and Sunagad, Basavaraj and Wang, Haoran and
                    Hoffmann, David T. and Theobalt, Christian and Kortylewski, Adam},
   year          = {2026},
-  eprint        = {XXXX.XXXXX},
+  eprint        = {2605.31597},
   archivePrefix = {arXiv},
   primaryClass  = {cs.CV},
-  url           = {https://arxiv.org/abs/XXXX.XXXXX}
+  url           = {https://arxiv.org/abs/2605.31597}
 }</code></pre>
     </div>
   </section>
@@ -908,6 +909,16 @@
       window.addEventListener('load', function () { chart.resize(); });
     })();
   </script>
+
+  <!-- ============== FOOTER ============== -->
+  <footer class="footer">
+    <div class="container narrow">
+      <p>
+        Webpage adapted from the
+        <a href="https://genintel.github.io/CRONOS/" target="_blank" rel="noopener">CRONOS project page</a>.
+      </p>
+    </div>
+  </footer>
 
 </body>
 </html>
