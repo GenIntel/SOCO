@@ -228,7 +228,8 @@
       <h2>Evaluation &amp; Findings</h2>
       <p class="lead">
         We evaluate a broad family of vision foundation models and large vision–language models on
-        the SOC taxonomy, and study how SOC relates to dense downstream tasks across 37 vision models.
+        the SOC taxonomy, and study how SOC relates to dense downstream tasks across 37 vision models —
+        all run with <a href="#omniprobe">OmniProbe</a>, our unified evaluation framework.
       </p>
 
       <div class="findings-grid">
@@ -554,6 +555,50 @@
     </div>
   </section>
 
+  <!-- ============== OMNIPROBE ============== -->
+  <section class="section" id="omniprobe">
+    <div class="container">
+      <h2>OmniProbe</h2>
+      <p class="lead">
+        A unified framework for evaluating visual features across dense tasks. Result for the 37-model correlation study were
+        produced with OmniProbe, and the same single command lets you reproduce them or probe your own model on SOCO or on other tasks.
+      </p>
+
+      <div class="stat-strip">
+        <div class="stat"><div class="stat-value">7</div><div class="stat-label">dense task families</div></div>
+        <div class="stat"><div class="stat-value">92</div><div class="stat-label">backbone configurations</div></div>
+        <div class="stat"><div class="stat-value">25+</div><div class="stat-label">model families</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">unified CLI &amp; Python API</div></div>
+      </div>
+
+      <p style="margin-top:16px;">
+        One consistent interface spans seven task families:
+        <strong>correspondence</strong> (SPair, SOCO, NAVI, ScanNet, AP-10K),
+        <strong>depth</strong>, <strong>surface normals</strong>,
+        <strong>segmentation</strong> (ADE20K), <strong>3D pose</strong>,
+        <strong>tracking</strong> (TAP-Vid), and <strong>classification</strong> (ImageNet) —
+        across 92 pre-configured backbones (DINOv2/DINOv3, CLIP, SAM, MAE, diffusion models, and more),
+        all driven by a Hydra configuration system.
+      </p>
+
+      <pre class="codeblock"><code># install
+uv sync --extra all
+
+# probe DINOv2 on SOCO (nearest-neighbour correspondence)
+python -m omniprobe.run task=correspondence_soco backbone=dinov2_b14 task.mode=nn
+
+# ...or from Python
+import omniprobe
+omniprobe.evaluate(task="correspondence_soco", backbone="dinov2_b14", mode="nn")</code></pre>
+
+      <nav class="action-buttons" style="margin-top:24px;">
+        <a class="btn" href="https://github.com/GenIntel/OmniProbe" target="_blank" rel="noopener">
+          <span class="btn-icon">💻</span> View OmniProbe on GitHub
+        </a>
+      </nav>
+    </div>
+  </section>
+
   <!-- ============== ACKNOWLEDGMENTS ============== -->
   <section class="section section--accent" id="acknowledgments">
     <div class="container narrow">
@@ -576,15 +621,12 @@
   <section class="section" id="bibtex">
     <div class="container narrow">
       <h2>BibTeX</h2>
-      <pre class="bibtex"><code>@misc{duenkel2026soco,
-  title         = {SOCO: Benchmarking Semantic Object Correspondence in Vision Foundation Models},
-  author        = {D{\"u}nkel, Olaf and Sunagad, Basavaraj and Wang, Haoran and
-                   Hoffmann, David T. and Theobalt, Christian and Kortylewski, Adam},
-  year          = {2026},
-  eprint        = {2605.31597},
-  archivePrefix = {arXiv},
-  primaryClass  = {cs.CV},
-  url           = {https://arxiv.org/abs/2605.31597}
+      <pre class="bibtex"><code>@article{duenkel2026soco,
+  title   = {SOCO: Benchmarking Semantic Object Correspondence in Vision Foundation Models},
+  author  = {D{\"u}nkel, Olaf and Sunagad, Basavaraj and Wang, Haoran and
+             Hoffmann, David T. and Theobalt, Christian and Kortylewski, Adam},
+  journal = {arXiv preprint arXiv:2605.31597},
+  year    = {2026}
 }</code></pre>
     </div>
   </section>

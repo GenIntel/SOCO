@@ -902,7 +902,8 @@ code {
 }
 
 /* ===== BibTeX ===== */
-.bibtex {
+.bibtex,
+.codeblock {
   background: var(--code-bg);
   color: var(--code-text);
   padding: 22px 26px;
@@ -912,7 +913,8 @@ code {
   font-size: 0.88rem;
   line-height: 1.6;
 }
-.bibtex code {
+.bibtex code,
+.codeblock code {
   background: transparent;
   color: inherit;
   padding: 0;
