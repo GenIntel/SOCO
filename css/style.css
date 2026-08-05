@@ -81,6 +81,7 @@ code {
   border-radius: 999px;
   margin-bottom: 24px;
 }
+.spotlight-label { color: #b42318; }
 .paper-title {
   font-size: clamp(1.8rem, 4vw, 2.75rem);
   font-weight: 700;
