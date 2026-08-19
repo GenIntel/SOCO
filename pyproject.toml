@@ -1,0 +1,49 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "soco-tools"
+version = "0.1.0"
+description = "Minimal loaders, visualizations, and nearest-neighbor evaluation for SOCO"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+dependencies = [
+    "matplotlib>=3.8",
+    "pillow>=10.0",
+]
+
+[project.optional-dependencies]
+notebook = [
+    "ipykernel>=6.29",
+]
+dinov2 = [
+    "torch>=2.2,<2.6",
+    "torchvision>=0.17,<0.21",
+    "tqdm>=4.66",
+]
+
+[dependency-groups]
+test = [
+    "pytest>=8.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["soco"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[[tool.uv.index]]
+name = "pytorch-cu121"
+url = "https://download.pytorch.org/whl/cu121"
+explicit = true
+
+[tool.uv.sources]
+torch = [
+    { index = "pytorch-cu121", marker = "sys_platform == 'linux'" },
+]
+torchvision = [
+    { index = "pytorch-cu121", marker = "sys_platform == 'linux'" },
+]
