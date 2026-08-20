@@ -110,14 +110,11 @@ SOCO is a separate CC BY 4.0 dataset.
 Please cite the dataset paper when using it:
 
 ```bibtex
-@misc{duenkel2026soco,
+@article{duenkel2026soco,
   title         = {SOCO: Benchmarking Semantic Object Correspondence in Vision Foundation Models},
   author        = {D{\"u}nkel, Olaf and Sunagad, Basavaraj and Wang, Haoran and
                    Hoffmann, David T. and Theobalt, Christian and Kortylewski, Adam},
-  year          = {2026},
-  eprint        = {2605.31597},
-  archivePrefix = {arXiv},
-  primaryClass  = {cs.CV},
-  url           = {https://arxiv.org/abs/2605.31597}
+  journal       = {arXiv preprint arXiv:2605.31597},
+  year          = {2026}
 }
 ```

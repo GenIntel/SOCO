@@ -88,11 +88,11 @@ If you use this benchmark or evaluation code, please cite SOCO and VLMEvalKit:
 
 ```bibtex
 @article{duenkel2026soco,
-  title   = {SOCO: Benchmarking Semantic Object Correspondence in Vision Foundation Models},
-  author  = {Dünkel, Olaf and Sunagad, Basavaraj and Wang, Haoran and
-             Hoffmann, David T. and Theobalt, Christian and Kortylewski, Adam},
-  journal = {arXiv preprint arXiv:2605.31597},
-  year    = {2026}
+  title         = {SOCO: Benchmarking Semantic Object Correspondence in Vision Foundation Models},
+  author        = {D{\"u}nkel, Olaf and Sunagad, Basavaraj and Wang, Haoran and
+                   Hoffmann, David T. and Theobalt, Christian and Kortylewski, Adam},
+  journal       = {arXiv preprint arXiv:2605.31597},
+  year          = {2026}
 }
 
 @inproceedings{duan2024vlmevalkit,
